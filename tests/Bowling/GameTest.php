@@ -33,13 +33,15 @@ class GameTest extends TestCase
     public function testGame(): void
     {
        $game = new Game();
+       for($i=0; $i<11; $i++){
+           $first = rand(0,10);
+           $second = rand(0, 10 - $first);
+           $game->roll($first);
+           $game->roll($second);
 
-       for($i=0; $i<10; $i++){
-           $game->roll(rand(0,10));
+           $this->assertTrue( count($game->frames) >= 1 );
        }
+       print_r($game);
 
-       print_r($game->currentIndex);
-
-       print_r($game->frames);
     }
 }

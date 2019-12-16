@@ -13,7 +13,7 @@ class Game
     public function __construct()
     {
         $this->currentIndex = 0;
-        $this->nRoll = 1;
+        $this->nRoll = 0;
         $this->frames = array();
         for($i=0; $i<self::N_FRAMES; $i++){
             $frame = new Frame();
@@ -23,22 +23,44 @@ class Game
 
     public function roll(int $pins): void
     {
-        // current frame
-        $currentFrame = $this->frames[$this->currentIndex]; 
-        
-        // is last frame
-        if($this->currentIndex >= self::N_FRAMES - 1){ 
-            
-        } 
+        print_r("\n " . $this->currentIndex ." \n");
+        if($this->currentIndex > self::N_FRAMES - 1){ 
+            print_r("returned");
+            return;
+        }
 
+        $currentFrame = $this->frames[$this->currentIndex]; 
+
+        // is last frame
+        if($this->currentIndex === self::N_FRAMES - 1){ 
+            //check bonus roll
+            if($currentFrame->isStrike()){
+                $currentFrame->bonusTries = true;
+                $currentFrame->setTries($pins);
+                $this->nRoll++;
+                $this->frames[$this->currentIndex] = $currentFrame;
+            }
+
+            if($currentFrame->isSpare()){
+                $currentFrame->setTries($pins);
+                $this->nRoll++;
+                $this->frames[$this->currentIndex] = $currentFrame;
+                $this->currentIndex++;
+            }
+            return;
+        }
+
+        // current frame
         $currentFrame->setTries($pins);
         $this->nRoll++;
         $this->frames[$this->currentIndex] = $currentFrame;
 
         // current frame is strike or is a secodn tries
-        print_r( "Roll " . $this->nRoll );
-        if($currentFrame->isStrike() || ($this->nRoll % 2) == 0){
-            print_r( "is strike or " .  $this->nRoll);
+        // if($currentFrame->isStrike() || ($this->nRoll % 2) == 0){
+        //     $this->currentIndex++;
+        // }
+
+        if($currentFrame->endFrame()){
             $this->currentIndex++;
         }
 

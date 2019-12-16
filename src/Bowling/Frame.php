@@ -4,24 +4,17 @@ namespace Bowling;
 
 class Frame 
 {
-    // public $firstTires;
-    // public $secondTires;
     public $spare;
     public $strike;
-    // public $firstBonusTires;
-    // public $secondBonusTires;
+    public $bonusTries;
     public $tries;
-    public $bonusTrise;
 
     public function __construct()
     {
-        // $this->firstTires = 0;
-        // $this->secondTires = 0;
         $this->spare = false;
         $this->strike = false;
-        // $this->firstBonusTires = 0;
-        // $this->secondBonusTires = 0;
         $this->tries = array(); 
+        $this->bonusTries = false;
     }
 
 
@@ -68,7 +61,20 @@ class Frame
         return $this->spare;
     }
 
+    public function haveBonusTries()
+    {
+        return $this->bonusTries;
+    }
 
+    public function getBonusTries()
+    {
+        return array_slice($this->bonusTries, 2, count($this->bonusTries) - 1);
+    }
+
+    public function endFrame()
+    {
+        return $this->strike || count($this->tries) > 1;
+    }
    
 
 }
