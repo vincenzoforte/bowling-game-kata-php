@@ -22,5 +22,9 @@
       ]
     }
   },
+  "scripts":{
+    "test" : "./vendor/bin/phpunit",
+    "test-debug" : "./vendor/bin/phpunit --debug"
+  },
   "require": {}
 }
